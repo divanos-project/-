@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DivanOS — Official Website</title>
+    <style>
+        :root {
+            --bg-deep: #120d1a;
+            --bg-card: rgba(28, 21, 40, 0.85);
+            --accent-purple: #8a4fff;
+            --accent-brown: #a06b43;
+            --text-main: #f3f0f7;
+            --text-muted: #b0a4c2;
+            --card-blur: 10px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            position: relative;
+            padding: 60px 0;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(138, 79, 255, 0.15) 0%, rgba(160, 107, 67, 0.05) 60%, transparent 100%);
+            top: -200px;
+            left: -200px;
+            z-index: -1;
+            border-radius: 50%;
+        }
+
+        /* Верхняя панель */
+        .top-bar {
+            position: absolute;
+            top: 20px;
+            width: 90%;
+            max-width: 800px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 8px;
+            background: rgba(28, 21, 40, 0.8);
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(138, 79, 255, 0.3);
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 6px 14px;
+            border-radius: 12px;
+            transition: all 0.2s;
+        }
+
+        .nav-btn.active, .nav-btn:hover {
+            color: white;
+            background: var(--accent-purple);
+        }
+
+        .lang-switch {
+            display: flex;
+            gap: 6px;
+            background: rgba(28, 21, 40, 0.8);
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(138, 79, 255, 0.3);
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            padding: 4px 8px;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .lang-btn.active, .lang-btn:hover {
+            color: white;
+            background: var(--accent-purple);
+        }
+
+        .container {
+            max-width: 800px;
+            width: 90%;
+            background: var(--bg-card);
+            border: 1px solid rgba(138, 79, 255, 0.2);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            position: relative;
+            backdrop-filter: blur(var(--card-blur));
+            z-index: 10;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #d4bbff 0%, #a06b43 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1.5px;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 25px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(160, 107, 67, 0.2);
+            color: #d49a6a;
+            border: 1px solid rgba(160, 107, 67, 0.4);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .content-section {
+            display: none;
+            text-align: left;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .section-box {
+            background: rgba(18, 13, 26, 0.6);
+            border-radius: 12px;
+            border-left: 4px solid var(--accent-purple);
+            padding: 24px;
+            margin-bottom: 25px;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+        }
+
+        .section-box p {
+            margin-bottom: 12px;
+        }
+
+        .reassurance {
+            background: rgba(138, 79, 255, 0.1);
+            border: 1px dashed var(--accent-purple);
+            color: #d4bbff;
+            padding: 14px 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: var(--accent-purple);
+            color: white;
+            padding: 14px 32px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(138, 79, 255, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            background: #9b63ff;
+            box-shadow: 0 6px 20px rgba(138, 79, 255, 0.5);
+        }
+
+        .setting-control {
+            margin-bottom: 20px;
+        }
+
+        .setting-control label {
+            display: block;
+            margin-bottom: 8px;
+            color: #d4bbff;
+            font-weight: 600;
+        }
+
+        .setting-control input[type="range"] {
+            width: 100%;
+            accent-color: var(--accent-purple);
+        }
+
+        footer {
+            margin-top: 30px;
+            font-size: 0.85rem;
+            color: rgba(176, 164, 194, 0.5);
+            text-align: center;
+        }
+
+        /* Диванчик за мышкой */
+        #sofa-pet {
+            position: fixed;
+            top: 0;
+            left: 0;
+            font-size: 2.2rem;
+            pointer-events: none;
+            transition: opacity 0.4s ease, transform 0.15s ease-out;
+            z-index: 9999;
+            user-select: none;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5));
+            opacity: 1;
+        }
+
+        #sofa-pet.hidden {
+            opacity: 0;
+        }
+
+        /* Пасхалка DN */
+        #dn-logo-badge {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #8a4fff, #a06b43);
+            color: white;
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            font-weight: bold;
+            box-shadow: 0 5px 20px rgba(138, 79, 255, 0.6);
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.5s ease, transform 0.3s ease;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        #dn-logo-badge.show {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Диванчик за мышкой -->
+    <div id="sofa-pet">🛋️</div>
+
+    <!-- Всплывающий логотип DN -->
+    <div id="dn-logo-badge">DN</div>
+
+    <div class="top-bar">
+        <!-- Навигация -->
+        <div class="nav-tabs">
+            <button class="nav-btn active" onclick="switchTab('home', this)" id="btn-tab-home">Главная</button>
+            <button class="nav-btn" onclick="switchTab('about', this)" id="btn-tab-about">О нас</button>
+            <button class="nav-btn" onclick="switchTab('news', this)" id="btn-tab-news">Новости</button>
+            <button class="nav-btn" onclick="switchTab('settings', this)" id="btn-tab-settings">Настройки</button>
+        </div>
+
+        <!-- Переключатель языков -->
+        <div class="lang-switch">
+            <button class="lang-btn active" onclick="setLang('ru')">RU</button>
+            <button class="lang-btn" onclick="setLang('en')">EN</button>
+            <button class="lang-btn" onclick="setLang('jp')">JP</button>
+        </div>
+    </div>
+
+    <div class="container" id="main-container">
+        <!-- Вкладка Главная -->
+        <div id="tab-home" class="content-section active">
+            <div class="badge" id="txt-badge">Бета-тест • 2026</div>
+            <h1>DivanOS</h1>
+            <p class="tagline" id="txt-tagline">Самая уютная операционная система для твоего ПК</p>
+
+            <div class="section-box">
+                <p id="txt-home-p1"><strong>Вас приветствует DivanOS!</strong> Мы с огромным удовольствием хотим, чтобы вы попробовали нашу систему. Этот проект создан на базе <strong>Arch Linux</strong>.</p>
+                <p id="txt-home-p2">Пока что ISO-образа у нас нету, мы его активно создаем. Но не переживайте, мы всё справимся вместе!</p>
+            </div>
+
+            <div class="reassurance" id="txt-reassurance">
+                ✨ Скоро будет ISO-образ, не переживайте! Все файлы и сборки готовятся к выпуску.
+            </div>
+
+            <div class="actions">
+                <!-- Замени 'ТВОЙ_ЮЗЕРНЕЙМ' на свой Telegram -->
+                <a href="https://t.me/ТВОЙ_ЮЗЕРНЕЙМ" class="btn" target="_blank" id="txt-btn">
+                    ✈️ Написать нам в Телеграме
+                </a>
+            </div>
+        </div>
+
+        <!-- Вкладка О нас -->
+        <div id="tab-about" class="content-section">
+            <div class="badge" id="txt-about-badge">О проекте</div>
+            <h1 id="txt-about-h1">О нас</h1>
+            <p class="tagline" id="txt-about-tagline">История и философия DivanOS</p>
+
+            <div class="section-box">
+                <p id="txt-about-p1">Проект <strong>DivanOS</strong> был основан в <strong>2026 году</strong>. Это уникальная кастомная сборка Linux, созданная для тех, кто ценит уют, красивую эстетику и максимальную скорость в работе.</p>
+                <p id="txt-about-p2">Проект находится в активной стадии разработки, объединяя комфорт и продуктивность в единое целое.</p>
+            </div>
+        </div>
+
+        <!-- Вкладка Новости -->
+        <div id="tab-news" class="content-section">
+            <div class="badge" id="txt-news-badge">Обновления</div>
+            <h1 id="txt-news-h1">Новости</h1>
+            <p class="tagline" id="txt-news-tagline">Следите за ходом разработки</p>
+
+            <div class="section-box">
+                <p id="txt-news-p1">📢 <strong>Пока что новостей в сборках нет.</strong> Но мы их обязательно добавим совсем скоро, следите за обновлениями!</p>
+            </div>
+        </div>
+
+        <!-- Вкладка Настройки -->
+        <div id="tab-settings" class="content-section">
+            <div class="badge" id="txt-settings-badge">Персонализация</div>
+            <h1 id="txt-settings-h1">Настройки</h1>
+            <p class="tagline" id="txt-settings-tagline">Внешний вид и параметры</p>
+
+            <div class="section-box">
+                <div class="setting-control">
+                    <label id="lbl-opacity">Прозрачность карточки:</label>
+                    <input type="range" id="opacityRange" min="0.2" max="1" step="0.05" value="0.85" oninput="updateOpacity(this.value)">
+                </div>
+                <div class="setting-control">
+                    <label id="lbl-blur">Размытие (Blur):</label>
+                    <input type="range" id="blurRange" min="0" max="25" step="1" value="10" oninput="updateBlur(this.value)">
+                </div>
+            </div>
+
+            <div class="reassurance" id="txt-rights-reserved">
+                🔒 Все права защищены © 2026 DivanOS.
+            </div>
+        </div>
+
+        <footer id="txt-footer">
+            &copy; 2026 DivanOS. Создано с комфортом.
+        </footer>
+    </div>
+
+    <script>
+        // Тексты перевода
+        const translations = {
+            ru: {
+                tabHome: "Главная",
+                tabAbout: "О нас",
+                tabNews: "Новости",
+                tabSettings: "Настройки",
+                badge: "Бета-тест • 2026",
+                tagline: "Самая уютная операционная система для твоего ПК",
+                homeP1: "<strong>Вас приветствует DivanOS!</strong> Мы с огромным удовольствием хотим, чтобы вы попробовали нашу систему. Этот проект создан на базе <strong>Arch Linux</strong>.",
+                homeP2: "Пока что ISO-образа у нас нету, мы его активно создаем. Но не переживайте, мы всё справимся вместе!",
+                reassurance: "✨ Скоро будет ISO-образ, не переживайте! Все файлы и сборки готовятся к выпуску.",
+                btn: "✈️ Написать нам в Телеграме",
+                aboutBadge: "О проекте",
+                aboutH1: "О нас",
+                aboutTagline: "История и философия DivanOS",
+                aboutP1: "Проект <strong>DivanOS</strong> был основан в <strong>2026 году</strong>. Это уникальная кастомная сборка Linux, созданная для тех, кто ценит уют, красивую эстетику и максимальную скорость в работе.",
+                aboutP2: "Проект находится в активной стадии разработки, объединяя комфорт и продуктивность в единое целое.",
+                newsBadge: "Обновления",
+                newsH1: "Новости",
+                newsTagline: "Следите за ходом разработки",
+                newsP1: "📢 <strong>Пока что новостей в сборках нет.</strong> Но мы их обязательно добавим совсем скоро, следите за обновлениями!",
+                settingsBadge: "Персонализация",
+                settingsH1: "Настройки",
+                settingsTagline: "Внешний вид и параметры",
+                lblOpacity: "Прозрачность карточки:",
+                lblBlur: "Размытие (Blur):",
+                rightsReserved: "🔒 Все права защищены © 2026 DivanOS.",
+                footer: "© 2026 DivanOS. Создано с комфортом."
+            },
+            en: {
+                tabHome: "Home",
+                tabAbout: "About Us",
+                tabNews: "News",
+                tabSettings: "Settings",
+                badge: "Beta Test • 2026",
+                tagline: "The most comfortable operating system for your PC",
+                homeP1: "<strong>Welcome to DivanOS!</strong> We really want you to try our system. This project is built on top of <strong>Arch Linux</strong>.",
+                homeP2: "We don't have an ISO image yet, but we are actively creating it. Don't worry, we can handle it together!",
+                reassurance: "✨ The ISO image will be available soon, don't worry! Everything is being prepared for release.",
+                btn: "✈️ Contact us on Telegram",
+                aboutBadge: "About Project",
+                aboutH1: "About Us",
+                aboutTagline: "History and philosophy of DivanOS",
+                aboutP1: "The <strong>DivanOS</strong> project was founded in <strong>2026</strong>. It is a unique custom Linux distribution designed for those who appreciate cozy aesthetics and maximum speed.",
+                aboutP2: "The project is currently in active development, bringing comfort and productivity together.",
+                newsBadge: "Updates",
+                newsH1: "News",
+                newsTagline: "Follow the development progress",
+                newsP1: "📢 <strong>There are no news in builds yet.</strong> But we will definitely add them very soon, stay tuned!",
+                settingsBadge: "Personalization",
+                settingsH1: "Settings",
+                settingsTagline: "Appearance and options",
+                lblOpacity: "Card Opacity:",
+                lblBlur: "Blur Amount:",
+                rightsReserved: "🔒 All rights reserved © 2026 DivanOS.",
+                footer: "© 2026 DivanOS. Built with comfort."
+            },
+            jp: {
+                tabHome: "ホーム",
+                tabAbout: "概要",
+                tabNews: "ニュース",
+                tabSettings: "設定",
+                badge: "ベータテスト • 2026",
+                tagline: "あなたのPCのための最も居心地の良いOS",
+                homeP1: "<strong>DivanOSへようこそ！</strong> 私たちのシステムをぜひ試していただきたいです。このプロジェクトは <strong>Arch Linux</strong> をベースに作成されています。",
+                homeP2: "まだISOイメージはありませんが、現在積極的に開発中です。ご安心ください！",
+                reassurance: "✨ もうすぐISOイメージが公開されますので、ご安心ください！準備を進めています。",
+                btn: "✈️ Telegramでお問い合わせ",
+                aboutBadge: "プロジェクトについて",
+                aboutH1: "私たちについて",
+                aboutTagline: "DivanOSの歴史と哲学",
+                aboutP1: "<strong>DivanOS</strong>プロジェクトは<strong>2026年</strong>に設立されました。居心地の良さ、美しいデザイン、そして最高のスピードを追求したカスタムLinuxディストリビューションです。",
+                aboutP2: "現在、快適さと生産性をひとつにまとめるべく積極的に開発が進められています。",
+                newsBadge: "アップデート",
+                newsH1: "ニュース",
+                newsTagline: "開発の進捗をチェック",
+                newsP1: "📢 <strong>ビルドに関するニュースはまだありません。</strong> もうすぐ追加されますのでお楽しみに！",
+                settingsBadge: "カスタマイズ",
+                settingsH1: "設定",
+                settingsTagline: "外観とパラメータ",
+                lblOpacity: "カードの不透明度:",
+                lblBlur: "ぼかし効果 (Blur):",
+                rightsReserved: "🔒 All rights reserved © 2026 DivanOS.",
+                footer: "© 2026 DivanOS. 快適さを込めて。"
+            }
+        };
+
+        let currentLang = 'ru';
+
+        function setLang(lang) {
+            currentLang = lang;
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            if (event && event.target) {
+                event.target.classList.add('active');
+            }
+
+            const t = translations[lang];
+            
+            document.getElementById('btn-tab-home').innerText = t.tabHome;
+            document.getElementById('btn-tab-about').innerText = t.tabAbout;
+            document.getElementById('btn-tab-news').innerText = t.tabNews;
+            document.getElementById('btn-tab-settings').innerText = t.tabSettings;
+
+            document.getElementById('txt-badge').innerText = t.badge;
+            document.getElementById('txt-tagline').innerText = t.tagline;
+            document.getElementById('txt-home-p1').innerHTML = t.homeP1;
+            document.getElementById('txt-home-p2').innerHTML = t.homeP2;
+            document.getElementById('txt-reassurance').innerText = t.reassurance;
+            document.getElementById('txt-btn').innerText = t.btn;
+
+            document.getElementById('txt-about-badge').innerText = t.aboutBadge;
+            document.getElementById('txt-about-h1').innerText = t.aboutH1;
+            document.getElementById('txt-about-tagline').innerText = t.aboutTagline;
+            document.getElementById('txt-about-p1').innerHTML = t.aboutP1;
+            document.getElementById('txt-about-p2').innerHTML = t.aboutP2;
+
+            document.getElementById('txt-news-badge').innerText = t.newsBadge;
+            document.getElementById('txt-news-h1').innerText = t.newsH1;
+            document.getElementById('txt-news-tagline').innerText = t.newsTagline;
+            document.getElementById('txt-news-p1').innerHTML = t.newsP1;
+
+            document.getElementById('txt-settings-badge').innerText = t.settingsBadge;
+            document.getElementById('txt-settings-h1').innerText = t.settingsH1;
+            document.getElementById('txt-settings-tagline').innerText = t.settingsTagline;
+            document.getElementById('lbl-opacity').innerText = t.lblOpacity;
+            document.getElementById('lbl-blur').innerText = t.lblBlur;
+            document.getElementById('txt-rights-reserved').innerText = t.rightsReserved;
+
+            document.getElementById('txt-footer').innerText = t.footer;
+        }
+
+        function switchTab(tabId, btn) {
+            document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+
+            document.getElementById('tab-' + tabId).classList.add('active');
+            btn.classList.add('active');
+        }
+
+        function updateOpacity(val) {
+            document.getElementById('main-container').style.backgroundColor = `rgba(28, 21, 40, ${val})`;
+        }
+
+        function updateBlur(val) {
+            document.getElementById('main-container').style.backdropFilter = `blur(${val}px)`;
+        }
+
+        // Диванчик за мышкой
+        const sofa = document.getElementById('sofa-pet');
+        let mouseX = 0, mouseY = 0;
+        let sofaX = 0, sofaY = 0;
+        let idleTimer = null;
+        let isHidden = false;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX + 15;
+            mouseY = e.clientY + 15;
+            resetIdleTimer();
+        });
+
+        function animateSofa() {
+            sofaX += (mouseX - sofaX) * 0.15;
+            sofaY += (mouseY - sofaY) * 0.15;
+            sofa.style.transform = `translate(${sofaX}px, ${sofaY}px)`;
+            requestAnimationFrame(animateSofa);
+        }
+        animateSofa();
+
+        document.addEventListener('click', (e) => {
+            sofa.classList.add('hidden');
+            isHidden = true;
+            resetIdleTimer();
+        });
+
+        function resetIdleTimer() {
+            clearTimeout(idleTimer);
+            idleTimer = setTimeout(() => {
+                if (isHidden) {
+                    sofa.classList.remove('hidden');
+                    isHidden = false;
+                }
+            }, 10000);
+        }
+        resetIdleTimer();
+
+        // Цикл пасхалки DN (5 сек показывает, 5 сек скрывает)
+        const logoBadge = document.getElementById('dn-logo-badge');
+        
+        function toggleLogoCycle() {
+            logoBadge.classList.add('show');
+            setTimeout(() => {
+                logoBadge.classList.remove('show');
+            }, 5000);
+        }
+
+        setInterval(toggleLogoCycle, 10000);
+        setTimeout(toggleLogoCycle, 2000);
+    </script>
+</body>
+</html>
